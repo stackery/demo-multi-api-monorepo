@@ -1,0 +1,35 @@
+Resources:
+  ApiDomain:
+    Type: AWS::ApiGateway::DomainName
+    Properties:
+      DomainName: tester.stackery.io
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+      RegionalCertificateArn: !Ref ApiCertificate
+  ApiCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: tester.stackery.io
+      #DomainValidationOptions:
+      #  - DomainName: tester.stackery.io
+      #    ValidationDomain: stackery.io
+      ValidationMethod: EMAIL
+  ApiUsersPathMapping:
+    Type: AWS::ApiGateway::BasePathMapping
+    Properties:
+      BasePath: users
+      DomainName: !Ref ApiDomain
+      RestApiId: Fn::ImportValue:
+        !Sub Users-${EnvironmentTagName}-RestApiId
+      Stage: Fn::ImportValue:
+        !Sub Users-${EnvironmentTagName}-StageName
+  ApiAccountsPathMapping:
+    Type: AWS::ApiGateway::BasePathMapping
+    Properties:
+      BasePath: accounts
+      DomainName: !Ref ApiDomain
+      RestApiId: Fn::ImportValue:
+        !Sub Accounts-${EnvironmentTagName}-RestApiId
+      Stage: Fn::ImportValue:
+        !Sub Accounts-${EnvironmentTagName}-StageName
