@@ -11,9 +11,9 @@ Resources:
     Type: AWS::CertificateManager::Certificate
     Properties:
       DomainName: tester.stackery.io
-      #DomainValidationOptions:
-      #  - DomainName: tester.stackery.io
-      #    ValidationDomain: stackery.io
+      DomainValidationOptions:
+        - DomainName: tester.stackery.io
+          ValidationDomain: stackery.io
       ValidationMethod: EMAIL
   ApiUsersPathMapping:
     Type: AWS::ApiGateway::BasePathMapping
@@ -33,3 +33,7 @@ Resources:
         Fn::ImportValue: !Sub Accounts-${EnvironmentTagName}-RestApiId
       Stage:
         Fn::ImportValue: !Sub Accounts-${EnvironmentTagName}-StageName
+Parameters:
+  EnvironmentTagName:
+    Type: String
+    Description: Environment Name (injected by Stackery at deployment time)
