@@ -2,7 +2,7 @@ Resources:
   ApiDomain:
     Type: AWS::ApiGateway::DomainName
     Properties:
-      DomainName: tester.stackery.io
+      DomainName: !Ref EnvConfigdomainAsString
       EndpointConfiguration:
         Types:
           - REGIONAL
@@ -10,10 +10,10 @@ Resources:
   ApiCertificate:
     Type: AWS::CertificateManager::Certificate
     Properties:
-      DomainName: tester.stackery.io
+      DomainName: !Ref EnvConfigdomainAsString
       DomainValidationOptions:
-        - DomainName: tester.stackery.io
-          ValidationDomain: stackery.io
+        - DomainName: !Ref EnvConfigdomainAsString
+          ValidationDomain: !Ref EnvConfigvalidationDomainAsString
       ValidationMethod: EMAIL
   ApiUsersPathMapping:
     Type: AWS::ApiGateway::BasePathMapping
@@ -37,3 +37,13 @@ Parameters:
   EnvironmentTagName:
     Type: String
     Description: Environment Name (injected by Stackery at deployment time)
+  EnvConfigdomainAsString:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /<EnvironmentName>/domain
+  EnvConfigvalidationDomainAsString:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /<EnvironmentName>/validationDomain
+Metadata:
+  EnvConfigParameters:
+    EnvConfigdomainAsString: domain
+    EnvConfigvalidationDomainAsString: validationDomain
