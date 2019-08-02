@@ -20,16 +20,16 @@ Resources:
     Properties:
       BasePath: users
       DomainName: !Ref ApiDomain
-      RestApiId: Fn::ImportValue:
-        !Sub Users-${EnvironmentTagName}-RestApiId
-      Stage: Fn::ImportValue:
-        !Sub Users-${EnvironmentTagName}-StageName
+      RestApiId:
+        Fn::ImportValue: !Sub Users-${EnvironmentTagName}-RestApiId
+      Stage:
+        Fn::ImportValue: !Sub Users-${EnvironmentTagName}-StageName
   ApiAccountsPathMapping:
     Type: AWS::ApiGateway::BasePathMapping
     Properties:
       BasePath: accounts
       DomainName: !Ref ApiDomain
-      RestApiId: Fn::ImportValue:
-        !Sub Accounts-${EnvironmentTagName}-RestApiId
-      Stage: Fn::ImportValue:
-        !Sub Accounts-${EnvironmentTagName}-StageName
+      RestApiId:
+        Fn::ImportValue: !Sub Accounts-${EnvironmentTagName}-RestApiId
+      Stage:
+        Fn::ImportValue: !Sub Accounts-${EnvironmentTagName}-StageName
